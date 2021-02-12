@@ -1,8 +1,6 @@
 # midi_sequencer_v1
 #this needs compiled to cython to run anywhere near fast enough to be usuable in a musical context
 import time
-
-#not using patch parameter automation yet...
 #from midi_master_patcher import*
 
 
@@ -38,7 +36,7 @@ class Step:
         
 
 #mono step sequencer - holds Step() objects in an array (bars*subdivisions)
-class midiSequencer:
+class MidiSequencer:
     #initialise variables
     def __init__ (self, name, bars, subdivisions):
         self.name = name
@@ -50,7 +48,7 @@ class midiSequencer:
         self.tickLength = ((60/self.tempo)*4)/self.subdivisions #duraton of bar in seconds, divided by subdivisions
         self.t_firstTick = 0.1
         self.t_nextTick = 0.1
-        self.nextTick = 0
+        self.nextStep = 0
         self.activeBar = 0
         
         #set up a nested list of subdivisions, in bars. fill subdivisions with Step() objects
@@ -86,7 +84,7 @@ class midiSequencer:
     
     #play the step, and work out when/what the next one is
     def update(self):
-        print(self.name,"- |bar",self.activeBar,"|step", self.nextStep, "|Trigger:", self.barsSteps[self.activeBar][self.nextTick].trigger, " |Velocity:", self.barsSteps[self.activeBar][self.nextTick].velocity, " |Gate:", self.barsSteps[self.activeBar][self.nextTick].gate)
+        print(self.name,"- |bar",self.activeBar,"|step", self.nextStep, "|Trigger:", self.barsSteps[self.activeBar][self.nextStep].trigger, " |Velocity:", self.barsSteps[self.activeBar][self.nextStep].velocity, " |Gate:", self.barsSteps[self.activeBar][self.nextStep].gate)
         self.t_nextTick += self.tickLength
         self.nextStep +=1
         if self.nextStep >= self.subdivisions:
@@ -102,21 +100,21 @@ class midiSequencer:
 #test clock
 
 #initialise
-seq1=midiSequencer("seq1",64,16)
-seq2=midiSequencer("seq2",64,16)
-seq3=midiSequencer("seq3",64,16)
-seq4=midiSequencer("seq4",64,16)
-seq5=midiSequencer("seq5",64,16)
-seq6=midiSequencer("seq6",64,16)
-seq7=midiSequencer("seq7",64,16)
-seq8=midiSequencer("seq8",64,16)
-seq9=midiSequencer("seq9",64,16)
+seq1=MidiSequencer("seq1",64,16)
+seq2=MidiSequencer("seq2",64,16)
+seq3=MidiSequencer("seq3",64,16)
+seq4=MidiSequencer("seq4",64,16)
+seq5=MidiSequencer("seq5",64,16)
+seq6=MidiSequencer("seq6",64,16)
+seq7=MidiSequencer("seq7",64,16)
+seq8=MidiSequencer("seq8",64,16)
+seq9=MidiSequencer("seq9",64,16)
 
-seq10=midiSequencer("seq10",64,16)
-seq11=midiSequencer("seq11",64,16)
-seq12=midiSequencer("seq12",64,16)
-seq13=midiSequencer("seq13",64,16)
-seq14=midiSequencer("seq14",64,16)
+seq10=MidiSequencer("seq10",64,16)
+seq11=MidiSequencer("seq11",64,16)
+seq12=MidiSequencer("seq12",64,16)
+seq13=MidiSequencer("seq13",64,16)
+seq14=MidiSequencer("seq14",64,16)
 
 sequencers = [seq1, seq2, seq3, seq4, seq5, seq6, seq7, seq8, seq9, seq10, seq11, seq12, seq13, seq14]
 
